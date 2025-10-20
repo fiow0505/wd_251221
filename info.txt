@@ -1,0 +1,35 @@
+wedding_hall_name: 더채플앳청담
+wedding_hall_name2: 채플홀
+wedding_hall_floor: 6F
+wedding_hall_address: 서울 강남구 선릉로 757
+wedding_hall_tel: 02-421-1121
+wedding_date: 2025년 12월 21일 일요일
+wedding_time: 오후 4시
+
+groom_self_name: 권민범
+groom_self_phone: 01042364007
+groom_self_account_bank: 농협
+groom_self_account_number: 351-0724-6996-13
+groom_father_name: 권영창
+groom_father_phone: 01033511524
+groom_father_account_bank: 기업은행
+groom_father_account_number: 062-101837-01-016
+groom_mother_name: 김미숙
+groom_mother_phone: 01065508102
+groom_mother_account_bank: 농협
+groom_mother_account_number: 122-12-123075
+
+bride_self_name: 윤경의
+bride_self_phone: 01065488334
+bride_self_account_bank: 카카오뱅크
+bride_self_account_number: 3333-34-5441975
+bride_father_name: 윤을묵
+bride_father_phone: 01030608334
+bride_father_account_bank: 기업은행
+bride_father_account_number: 010-3060-8334
+bride_mother_name: 김선민
+bride_mother_phone: 01042501004
+bride_mother_account_bank: 국민은행
+bride_mother_account_number: 003-24-0331-686
+intro_youtube_url: https://www.youtube.com/live/jfKfPfyJRdk?si=NonIuvY3SJagOZ3v
+interview_youtube_url: https://www.youtube.com/embed/dQw4w9WgXcQ

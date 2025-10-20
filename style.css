@@ -1,0 +1,394 @@
+/* 1. 커스텀 폰트 정의: SchoolSafetyFoundation 폰트 추가 */
+@font-face {
+    font-family: 'SchoolSafetyFoundation';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimBareonbatangR.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+
+
+
+/* 
+  전체적인 스타일을 정의하는 파일입니다.
+  글꼴, 색상, 레이아웃 등을 이곳에서 수정할 수 있습니다.
+*/
+
+/* 기본 폰트 및 배경색 설정 */
+body {
+    font-family: 'SchoolSafetyFoundation';
+    color: #333;
+    margin: 0;
+    padding: 0;
+    word-break: keep-all;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* 섹션별 공통 스타일 */
+section {
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #892929; /* 포인트 색상 */
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* 메인 섹션 */
+.main {
+    background-color: #FDFDFD;
+    position: relative;
+}
+
+.main-photo {
+    width: 100%;
+    height: auto;
+}
+
+.main-title {
+    font-size: 2em;
+    margin-top: 20px;
+}
+
+.main-title .and {
+    font-size: 1.2em;
+    color: #892929; /* 포인트 색상 */
+    font-weight: bold;
+}
+
+.main-date, .main-location {
+    font-size: 1.1em;
+    color: #555;
+    margin: 10px 0;
+}
+
+/* 초대글 섹션 */
+.invitation {
+    background-color: #FDFDFD;
+
+}
+
+.invitation p {
+    line-height: 1.8;
+    font-size: 1.1em;
+}
+
+.icon-flower, .icon-chaple .icon-flower-w{
+    width: 50px;
+    height: auto;
+    margin: 20px 0;
+}
+
+
+/* 신랑 & 신부 정보 */
+.family-info {
+    background-color: #FDFDFD;
+    font-size: 1.1em;
+}
+
+.family-info div {
+    margin: 10px 0;
+}
+
+/* 팝업 버튼 스타일 */
+.telArea {
+    padding-top: 15px;
+    text-align: center;
+    /* 'tel_type_v1 .introLayer .telArea'에 의해 display: block으로 설정됩니다. */
+    display: block; 
+}
+.int_buttn {
+    display: inline-block;
+    padding: 9px 30px;
+    color: #404040;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+/* 팝업 오버레이 기본 스타일 (숨김 상태) */
+#tel_popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.5s opacity;
+    background: rgba(73, 61, 65, 0.84);
+    visibility: hidden;
+    opacity: 0;
+    overflow: scroll;
+}
+
+#tel_popup .x_button {
+    position: absolute;
+    top: 10px;
+    right:10px;
+    color: #fff;
+    font-size: 20px;
+    z-index: 1;
+}
+#tel_popup .ctt {
+    color: white;
+    width: 350px;
+    max-width: 92%;
+    /*background: #fff;*/
+    border-radius: 4px;
+    padding: 0;
+    margin-top: 50px;
+    overflow: hidden;
+    --animate-duration: 0.25s;
+    z-index: 1;
+    padding-top: 10px;
+    flex: 0 0 auto;
+}
+#tel_popup .tp {
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-top: 50px;
+    left: 0; right: 0;
+
+}
+#tel_popup .ctt .grd_wrap {
+    padding: 10px;
+}
+#tel_popup .ctt > .grd_wrap:first-child {
+    margin-bottom: 30px;
+}
+
+#tel_popup .ctt .grd {
+    font-size: 16px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 20px 15px;
+    align-items: center;
+}
+#tel_popup .ctt .grd > .cell {
+    text-align: center;
+    font-size: 15px;
+}
+#tel_popup .ctt .grd .cell a{
+    transform: scaleX(-1);
+}
+#tel_popup .ctt .grd > .cell_name {
+    min-width: 80px;
+    font-size: 1.2em;
+    color: #fff;
+    font-weight: 400;
+    /*display: flex;*/
+    flex-direction: column;
+    gap: 3px;
+}
+
+#tel_popup .ctt .grd > .cell_name .baptismal {
+    font-size: 13px;
+    word-break: keep-all;
+}
+#tel_popup .ctt .grd > .cell:nth-child(1) {
+    text-align: left; font-size: 14px; color:#ccc;
+}
+#tel_popup .ctt .grd > .cell:nth-child(3) {
+    text-align: right;
+}
+#tel_popup .ctt .grd .fa {
+    margin: 0 10px;
+}
+#tel_popup .ctt .grd_wrap.man,
+#tel_popup .ctt .grd_wrap.man .fa {color: #fff; color: #ccc; }
+#tel_popup .ctt .grd_wrap.woman,
+#tel_popup .ctt .grd_wrap.woman .fa {color: #c8b1b7; color: #ccc  }
+
+#tel_popup .ent {
+    font-size: 12px;
+    font-family: SchoolSafetyFoundation;
+    letter-spacing: 3px;
+    line-height: 20px;
+    color: #ccc;
+    opacity: 0.6;
+}
+#tel_popup .grd_line {
+    border-bottom: 1px dotted #888;
+    padding-bottom: 9px;
+    margin: 0 15px;
+    color: #ccc; font-size: 14px;
+}
+
+/* 팝업 활성화 클래스 */
+/* JavaScript가 body 태그에 .pop_contact_open을 추가하면 팝업이 보입니다. */
+.pop_contact_open #tel_popup {
+    visibility: visible;
+    opacity: 1;
+}
+/* 팝업이 열릴 때 배경에 블러 효과 적용 */
+.pop_contact_open .pageCover {
+    filter: blur(10px);
+    transition: 0.3s filter;
+}
+#tel_popup .ctt {font-size: 16px;}
+#tel_popup .tp {font-size: 20px;}
+#tel_popup .ctt .grd > .cell {font-size: 17px;}
+#tel_popup .ctt .grd > .cell:nth-child(1) {font-size: 16px;}
+#tel_popup .grd_line {font-size: 16px;}
+
+
+/* 약도 섹션 */
+/* 오시는 길 (지도 및 교통 정보) */
+.location {
+    background-color: #FDFDFD;
+}
+
+#map { /* 동적 지도를 위한 ID */
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: #f0f0f0; /* 지도 플레이스홀더 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+}
+
+/* 추가된 대중교통 정보 스타일 */
+.transport-info {
+    background-color: #FFFFFF;
+    border: 1px solid #892929;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10px;
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 1.0em;
+}
+.tab-title {
+    color: #892929;
+    padding: 12px 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1em;
+    border-bottom: 1px solid #f0f0f0;
+    
+
+}
+.transport-detail {
+    padding: 15px;
+    line-height: 1.0;
+    color: #555;
+    font-size: 0.9em;
+    margin-top: 0px;
+    /*background-color: #fff;*/
+}
+
+.transport-detail strong {
+    color: #892929;
+}
+
+/* 마음을 전하는 곳*/
+.account{
+    background-color: #FDFDFD;
+}
+.account p {
+    line-height: 1.8;
+    font-size: 1.1em;
+}
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.account-item .info {
+    font-size: 1em;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+.account-item .info .name {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.account-item .info .account {
+    font-size: 1em;
+    color: #555;
+}
+.account-item .action a{
+    margin-left: 20px;
+}
+.account-item .action img{
+    width: 30px;
+}
+
+
+.accordion {
+    background-color: #f7f7f7;
+    color: #444;
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 1.1em;
+    transition: 0.4s;
+    margin-top: 10px;
+    font-weight: 400;
+    border-radius: 5px;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.panel {
+    max-height: 0;
+    padding: 0;
+    background-color: white;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border-radius: 5px;
+    border: 1px solid #f7f7f7;
+    margin-top: -5px;
+}
+
+/* 패널이 활성화(열렸을) 때 패딩 상/하 적용 */
+.accordion.active + .panel {
+    padding-top: 10px; /* 적절한 상단 패딩 값 */
+    padding-bottom: 10px; /* 적절한 하단 패딩 값 */
+}
+
+.copy-btn {
+    background-color: #892929;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
