@@ -395,6 +395,18 @@ h2 {
     }
 }
 
+@keyframes slideInLeft {
+    0% {
+        transform: translate(-150%, -50%); /* 왼쪽 밖에서 시작 */
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%); /* 중앙으로 이동 */
+        opacity: 1;
+    }
+}
+
+
 /* 모달 버튼들 */
 .close-btn {
     position: absolute;
