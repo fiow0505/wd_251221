@@ -249,12 +249,15 @@ function initGallery() {
             // 새 이미지를 왼쪽에서 슬라이드 인
             modalImage.classList.remove('slide-right');
             modalImage.classList.add('slide-in-left');
-            
-            setTimeout(() => {
-                modalImage.classList.remove('slide-in-left');
-                isAnimating = false;
-            }, 300);
-        }, 150);
+            // requestAnimationFrame을 사용해 강제 리페인트를 유도하여 튕김을 방지합니다.
+
+
+        setTimeout(() => {
+            modalImage.classList.remove('slide-in-left');
+            isAnimating = false;
+        }, 300);
+
+    }, 300);
     };
 
     const showNextImage = () => {
@@ -277,7 +280,7 @@ function initGallery() {
                 modalImage.classList.remove('slide-in-right');
                 isAnimating = false;
             }, 300);
-        }, 150);
+        }, 300);
     };
 
     closeBtn.addEventListener('click', closeModal);

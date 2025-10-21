@@ -384,24 +384,13 @@ h2 {
     animation: slideInRight 0.3s ease-in-out;
 }
 
-@keyframes slideInLeft {
-    0% {
-        transform: translate(-150%, -50%);
-        opacity: 0;
-    }
-    100% {
-        transform: translate(-50%, -50%);
-        opacity: 1;
-    }
-}
-
 @keyframes slideInRight {
     0% {
-        transform: translate(50%, -50%);
+        transform: translate(50%, -50%); /* 오른쪽 밖에서 시작 */
         opacity: 0;
     }
     100% {
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%); /* 중앙으로 이동 */
         opacity: 1;
     }
 }
@@ -589,6 +578,7 @@ h2 {
 .account-item .info .account {
     font-size: 1em;
     color: #555;
+
 }
 .account-item .action a{
     margin-left: 20px;
