@@ -361,18 +361,18 @@ h2 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     opacity: 1;
 }
 
 /* 슬라이드 애니메이션 효과 */
 .modal-content.slide-left {
-    transform: translate(-150%, -50%);
+    transform: translate(50%, -50%);
     opacity: 0;
 }
 
 .modal-content.slide-right {
-    transform: translate(50%, -50%);
+    transform: translate(-150%, -50%);
     opacity: 0;
 }
 
@@ -384,9 +384,25 @@ h2 {
     animation: slideInRight 0.3s ease-in-out;
 }
 
-@keyframes slideInRight {
+.modal-content.start-left {
+    /* 좌측에서 들어오기 위한 시작점 */
+    transform: translate(-150%, -50%);
+    opacity: 0;
+    /** ⭐ 트랜지션 무효화 (순간 이동용) */
+    transition: none !important; 
+}
+
+.modal-content.start-right {
+    /* 우측에서 들어오기 위한 시작점 */
+    transform: translate(50%, -50%);
+    opacity: 0;
+    /** ⭐ 트랜지션 무효화 (순간 이동용) */
+    transition: none !important;
+}
+
+@keyframes slideInLeft {
     0% {
-        transform: translate(50%, -50%); /* 오른쪽 밖에서 시작 */
+        transform: translate(50%, -50%); /* 왼쪽 밖에서 시작 */
         opacity: 0;
     }
     100% {
@@ -395,9 +411,9 @@ h2 {
     }
 }
 
-@keyframes slideInLeft {
+@keyframes  slideInRight {
     0% {
-        transform: translate(-150%, -50%); /* 왼쪽 밖에서 시작 */
+        transform: translate(-150%, -50%); /* 오른쪽 밖에서 시작 */
         opacity: 0;
     }
     100% {

@@ -234,53 +234,62 @@ function initGallery() {
         });
     };
 
-    const showPrevImage = () => {
-        if (isAnimating) return; // 애니메이션 중이면 무시
+    const animateSlide = (direction) => {
+        if (isAnimating) return;
         isAnimating = true;
+
+        let slideOutClass, slideInStartClass;
         
-        // 현재 이미지를 오른쪽으로 슬라이드 아웃
-        modalImage.classList.add('slide-right');
+        if (direction === 'prev') {
+            // 좌측 버튼: 현재 사진 오른쪽으로 아웃 (slide-right), 새 사진 왼쪽 밖에서 시작 (start-left)
+            slideOutClass = 'slide-right'; 
+            slideInStartClass = 'start-left';
+        } else { // 'next'
+            // 우측 버튼: 현재 사진 왼쪽으로 아웃 (slide-left), 새 사진 오른쪽 밖에서 시작 (start-right)
+            slideOutClass = 'slide-left';
+            slideInStartClass = 'start-right';
+        }
+
+        // 1. 현재 이미지를 화면 밖으로 슬라이드 아웃
+        modalImage.classList.add(slideOutClass);
         
-        setTimeout(() => {
-            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        // CSS 애니메이션 시간(300ms) 대기
+        setTimeout(() => { 
+            // 2. 새 이미지 인덱스 및 소스 업데이트
+            if (direction === 'next') {
+                currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            } else {
+                currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            }
             modalImage.src = galleryImages[currentImageIndex];
             updateIndicators();
+
+            // 3. 트랜지션을 끄고 새 이미지의 시작 위치로 순간 이동
+            modalImage.classList.add(slideInStartClass);
+            modalImage.classList.remove(slideOutClass);
             
-            // 새 이미지를 왼쪽에서 슬라이드 인
-            modalImage.classList.remove('slide-right');
-            modalImage.classList.add('slide-in-left');
+            // 4. 강제 리페인트 후 트랜지션을 다시 켜고 중앙으로 이동 시작 (슬라이드 인)
             // requestAnimationFrame을 사용해 강제 리페인트를 유도하여 튕김을 방지합니다.
+            requestAnimationFrame(() => {
+                modalImage.classList.remove(slideInStartClass);
+                // 'modal-content' 클래스가 트랜지션을 다시 활성화합니다.
+            });
+            
+            // 5. 슬라이드 인 완료 대기
+            setTimeout(() => {
+                isAnimating = false;
+            }, 300); // 300ms 대기 후 애니메이션 플래그 해제
+            
+        }, 300); // 300ms 대기 후 이미지 전환 시작
+    };
 
 
-        setTimeout(() => {
-            modalImage.classList.remove('slide-in-left');
-            isAnimating = false;
-        }, 300);
-
-    }, 300);
+    const showPrevImage = () => {
+        animateSlide('prev');
     };
 
     const showNextImage = () => {
-        if (isAnimating) return; // 애니메이션 중이면 무시
-        isAnimating = true;
-        
-        // 현재 이미지를 왼쪽으로 슬라이드 아웃
-        modalImage.classList.add('slide-left');
-        
-        setTimeout(() => {
-            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-            modalImage.src = galleryImages[currentImageIndex];
-            updateIndicators();
-            
-            // 새 이미지를 오른쪽에서 슬라이드 인
-            modalImage.classList.remove('slide-left');
-            modalImage.classList.add('slide-in-right');
-            
-            setTimeout(() => {
-                modalImage.classList.remove('slide-in-right');
-                isAnimating = false;
-            }, 300);
-        }, 300);
+        animateSlide('next');
     };
 
     closeBtn.addEventListener('click', closeModal);
