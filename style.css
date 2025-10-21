@@ -650,6 +650,7 @@ h2 {
 
 /* 패널이 활성화(열렸을) 때 패딩 상/하 적용 */
 .accordion.active + .panel {
+    background-color: #FDFDFD;
     padding-top: 10px; /* 적절한 상단 패딩 값 */
     padding-bottom: 10px; /* 적절한 하단 패딩 값 */
 }
