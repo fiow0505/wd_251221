@@ -582,7 +582,7 @@ h2 {
     line-height: 1.8;
     font-size: 1.1em;
 }
-.account-item {
+.account .account-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -590,7 +590,7 @@ h2 {
     border-bottom: 1px solid #f0f0f0;
 }
 
-.account-item .info {
+.account .account-item .info {
     font-size: 1em;
     color: #555;
     display: flex;
@@ -599,17 +599,20 @@ h2 {
     text-align: left;
 }
 .account-item .info .name {
+    background-color: #FDFDFD;
     font-size: 1.1em;
     font-weight: 500;
     margin-bottom: 10px;
 }
 
 .account-item .info .account {
+    background-color: #FDFDFD;
     font-size: 1em;
     color: #555;
 
 }
 .account-item .action a{
+    background-color: #FDFDFD;
     margin-left: 20px;
 }
 .account-item .action img{
@@ -657,7 +660,7 @@ h2 {
 
 .copy-btn {
     background-color: #892929;
-    color: white;
+    color: #FDFDFD;
     border: none;
     padding: 8px 12px;
     cursor: pointer;
