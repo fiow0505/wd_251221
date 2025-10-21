@@ -243,7 +243,7 @@ function initGallery() {
         if (direction === 'prev') {
             // 좌측 버튼: 현재 사진 오른쪽으로 아웃 (slide-right), 새 사진 왼쪽 밖에서 시작 (start-left)
             slideOutClass = 'slide-right'; 
-            slideInStartClass = 'start-left';
+            slideInStartClass = 'start-right';
         } else { // 'next'
             // 우측 버튼: 현재 사진 왼쪽으로 아웃 (slide-left), 새 사진 오른쪽 밖에서 시작 (start-right)
             slideOutClass = 'slide-left';
@@ -271,6 +271,7 @@ function initGallery() {
             // 4. 강제 리페인트 후 트랜지션을 다시 켜고 중앙으로 이동 시작 (슬라이드 인)
             // requestAnimationFrame을 사용해 강제 리페인트를 유도하여 튕김을 방지합니다.
             requestAnimationFrame(() => {
+                modalImage.offsetWidth;
                 modalImage.classList.remove(slideInStartClass);
                 // 'modal-content' 클래스가 트랜지션을 다시 활성화합니다.
             });

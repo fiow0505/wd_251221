@@ -367,12 +367,12 @@ h2 {
 
 /* 슬라이드 애니메이션 효과 */
 .modal-content.slide-left {
-    transform: translate(50%, -50%);
+    transform: translate(-150%, -50%);
     opacity: 0;
 }
 
 .modal-content.slide-right {
-    transform: translate(-150%, -50%);
+    transform: translate(50%, -50%);
     opacity: 0;
 }
 
