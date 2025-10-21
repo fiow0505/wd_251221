@@ -29,7 +29,7 @@ bride_father_account_bank: 기업은행
 bride_father_account_number: 010-3060-8334
 bride_mother_name: 김선민
 bride_mother_phone: 01042501004
-bride_mother_account_bank: 국민은행
-bride_mother_account_number: 003-24-0331-686
+bride_mother_account_bank: 우리은행
+bride_mother_account_number: 1002-259-129081
 intro_youtube_url: https://www.youtube.com/live/jfKfPfyJRdk?si=NonIuvY3SJagOZ3v
 interview_youtube_url: https://www.youtube.com/embed/dQw4w9WgXcQ
