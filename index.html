@@ -8,6 +8,9 @@
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="./animate.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400&display=swap" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
@@ -19,7 +22,6 @@
     <body>
         <div class = "container">
             <section class="main">
-                
                 <img src="./photo/main.jpg" alt="웨딩 메인 사진" class="main-photo">
                 <div class="main-title">
                     <span id="groom-name-main"></span>
@@ -33,11 +35,12 @@
 
             <!-- 초대글 -->
             <section class="invitation">
-                <img src = "./icon/flower.png" alt="꽃" class="icon-flower">
+                <img src = "./icon/invitation.png" alt="invitation" style="width: 250px;">
                 <h2> 초대합니다</h2>
                 <p>
                     <br>
-                    제가 가장 좋아하는 일보다 이 사람과 함께하는 것이<br>
+                    제가 가장 좋아하는 일보다 <br>
+                    이 사람과 함께하는 것이<br>
                     더 큰 행복임을 깨달았습니다.<br>
                     <br>
                     작은 것에도 행복해하고 웃는 따뜻한 사람과<br>
@@ -154,7 +157,19 @@
             </section>
 
             <!-- 캘린더 -->
-            
+            <!-- 갤러리 -->
+            <section class="gallery">
+                <h2>갤러리</h2>
+                <div class="gallery-grid"></div>
+                <div id="gallery-modal" class="modal">
+                    <span class="close-btn">&times;</span>
+                    <img class="modal-content" id="modal-image">
+                    <a class="prev-btn">&#10094;</a>
+                    <a class="next-btn">&#10095;</a>
+                    <div class="indicator-container"></div>
+                </div>
+            </section>
+
             <!-- 오시는길 -->
             <section class="location">
                 <img src = "./icon/chaple.png" alt="채플" class="icon-flower">
@@ -229,7 +244,6 @@
                         <div class="info">
                             <span class="name" id="groom-father-name-account"></span>
                             <span class="account" id="groom-father-account-number"></span>
-                            
                         </div>
                         <button class="copy-btn">복사</button>
                     </div>
@@ -251,7 +265,7 @@
                     </div>
                 </div>
 
-                <button class="accordion">신부측 마음 전하기</button>
+                <button class="accordion">신부측에게 마음 전하기</button>
                 <div class="panel">
                     <div class="account-item">
                         <div class="info">
@@ -279,6 +293,33 @@
                     </div>
                 </div> 
             </section>
+                
+            <section>
+                <!-- 마무리 메시지 -->
+                <div class="closing-message">
+                    <p style="font-size: 2.0em; color: #892929; font-family: 'Pinyon Script', sans-serif;">Thank You</p>
+                    <!-- 성경구절 -->
+                    <p style="font-size: 1.1em; color: #666; line-height: 1.6; margin: 30px 0 0 0;">
+                        소중한 분들의 참석과 축복이<br>
+                        저희에게 가장 큰 선물입니다.<br>
+                        <br>
+                        감사합니다.
+                    </p>
+
+                    <div class="bible-verse">
+                        <p class="verse-text">
+                            "Love is patient and kind. Love is not jealous or boastful or proud. It is not rude, it is not selfish, and it cannot be made angry. It is not resentful. Love is not glad about evil but rejoices when the truth wins out. It bears all things, believes all things, hopes all things, and endures all things"
+                            </p>
+                        <p class="verse-reference">1 Corinthians 13:4-7</p>
+                    </div>
+                    <img src="./icon/ring.png" alt="꽃" class="icon-flower" style="width: 80px; height: auto; margin: 30px 0 20px 0;">
+                    
+                </div>
+            </section>
+            
+
+
+            
             
             
             <!--영상

@@ -172,6 +172,7 @@ $("#tel_popup .x_button").click(function() {
 // --- 갤러리 기능 ---
 let galleryImages = [];
 let currentImageIndex = 0;
+let isAnimating = false; // 애니메이션 중 중복 클릭 방지
 
 function initGallery() {
     const galleryGrid = document.querySelector('.gallery-grid');
@@ -183,18 +184,31 @@ function initGallery() {
     const nextBtn = document.querySelector('.next-btn');
 
     // 이미지 동적 생성
-    for (let i = 1; i <= 29; i++) {
+    for (let i = 1; i <= 10; i++) {
         const img = document.createElement('img');
-        const src = `./photo/img${i}.jpg`;
-        img.src = src;
+        const index = i - 1;
+        const jpg = `./photo/img${i}.jpg`;
+        const jpeg = `./photo/img${i}.jpeg`;
         img.alt = `웨딩 사진 ${i}`;
-        img.dataset.index = i - 1;
-        galleryImages.push(src);
+        img.dataset.index = index;
+
+        // jpg가 실패하면 jpeg로 폴백하고, 실제 소스를 galleryImages에 반영
+        img.onerror = () => {
+            img.onerror = null;
+            img.src = jpeg;
+            galleryImages[index] = jpeg;
+        };
+        img.onload = () => {
+            galleryImages[index] = img.src;
+        };
+
+        img.src = jpg;
+        galleryImages.push(jpg);
         galleryGrid.appendChild(img);
 
         const indicator = document.createElement('span');
         indicator.classList.add('indicator');
-        indicator.dataset.index = i - 1;
+        indicator.dataset.index = index;
         indicatorContainer.appendChild(indicator);
 
         img.addEventListener('click', () => openModal(i - 1));
@@ -206,6 +220,8 @@ function initGallery() {
         modalImage.src = galleryImages[currentImageIndex];
         updateIndicators();
         modal.style.display = 'block';
+        // 애니메이션 클래스 초기화
+        modalImage.className = 'modal-content';
     };
 
     const closeModal = () => {
@@ -219,15 +235,49 @@ function initGallery() {
     };
 
     const showPrevImage = () => {
-        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-        modalImage.src = galleryImages[currentImageIndex];
-        updateIndicators();
+        if (isAnimating) return; // 애니메이션 중이면 무시
+        isAnimating = true;
+        
+        // 현재 이미지를 오른쪽으로 슬라이드 아웃
+        modalImage.classList.add('slide-right');
+        
+        setTimeout(() => {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            modalImage.src = galleryImages[currentImageIndex];
+            updateIndicators();
+            
+            // 새 이미지를 왼쪽에서 슬라이드 인
+            modalImage.classList.remove('slide-right');
+            modalImage.classList.add('slide-in-left');
+            
+            setTimeout(() => {
+                modalImage.classList.remove('slide-in-left');
+                isAnimating = false;
+            }, 300);
+        }, 150);
     };
 
     const showNextImage = () => {
-        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-        modalImage.src = galleryImages[currentImageIndex];
-        updateIndicators();
+        if (isAnimating) return; // 애니메이션 중이면 무시
+        isAnimating = true;
+        
+        // 현재 이미지를 왼쪽으로 슬라이드 아웃
+        modalImage.classList.add('slide-left');
+        
+        setTimeout(() => {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            modalImage.src = galleryImages[currentImageIndex];
+            updateIndicators();
+            
+            // 새 이미지를 오른쪽에서 슬라이드 인
+            modalImage.classList.remove('slide-left');
+            modalImage.classList.add('slide-in-right');
+            
+            setTimeout(() => {
+                modalImage.classList.remove('slide-in-right');
+                isAnimating = false;
+            }, 300);
+        }, 150);
     };
 
     closeBtn.addEventListener('click', closeModal);
@@ -237,18 +287,38 @@ function initGallery() {
         if (e.target === modal) closeModal();
     });
 
-    // 스와이프 기능
+    // 스와이프 기능 개선
     let touchstartX = 0;
     let touchendX = 0;
+    let touchstartY = 0;
+    let touchendY = 0;
+    const minSwipeDistance = 50; // 최소 스와이프 거리
 
     modalImage.addEventListener('touchstart', e => {
         touchstartX = e.changedTouches[0].screenX;
+        touchstartY = e.changedTouches[0].screenY;
     });
 
     modalImage.addEventListener('touchend', e => {
         touchendX = e.changedTouches[0].screenX;
-        if (touchendX < touchstartX) showNextImage();
-        if (touchendX > touchstartX) showPrevImage();
+        touchendY = e.changedTouches[0].screenY;
+        
+        const deltaX = touchendX - touchstartX;
+        const deltaY = touchendY - touchstartY;
+        
+        // 수평 스와이프가 수직 스와이프보다 클 때만 이미지 변경
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance && !isAnimating) {
+            if (deltaX < 0) {
+                showNextImage(); // 왼쪽으로 스와이프
+            } else {
+                showPrevImage(); // 오른쪽으로 스와이프
+            }
+        }
+    });
+
+    // 모달 배경 클릭으로 닫기
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
     });
 }
 
@@ -256,20 +326,35 @@ function initGallery() {
  * 아코디언 기능을 초기화하여 계좌번호 패널을 열고 닫는 함수
  */
 function initAccordion() {
-    document.querySelectorAll(".accordion").forEach(btn => {
+    const buttons = Array.from(document.querySelectorAll(".accordion"));
+    buttons.forEach(btn => {
       btn.addEventListener("click", () => {
-        btn.classList.toggle("active");
         const panel = btn.nextElementSibling;
-        if (panel.style.maxHeight) {
+        const willOpen = !panel.style.maxHeight;
+
+        // 다른 모든 패널 닫기
+        buttons.forEach(other => {
+          if (other === btn) return;
+          other.classList.remove("active");
+          const otherPanel = other.nextElementSibling;
+          if (otherPanel && otherPanel.style) {
+            otherPanel.style.maxHeight = null;
+            otherPanel.style.paddingTop = "0";
+            otherPanel.style.paddingBottom = "0";
+          }
+        });
+
+        // 현재 버튼 토글
+        if (willOpen) {
+          btn.classList.add("active");
+          panel.style.paddingTop = "10px";
+          panel.style.paddingBottom = "10px";
+          panel.style.maxHeight = (panel.scrollHeight + 20) + "px";
+        } else {
+          btn.classList.remove("active");
           panel.style.maxHeight = null;
           panel.style.paddingTop = "0";
           panel.style.paddingBottom = "0";
-        } else {
-          // CSS의 패딩을 고려하여 maxHeight를 설정
-          panel.style.paddingTop = "10px"; 
-          panel.style.paddingBottom = "10px";
-          // maxHeight를 스크롤 높이보다 약간 크게 설정하여 패딩 포함
-          panel.style.maxHeight = (panel.scrollHeight + 20) + "px"; 
         }
       });
     });
