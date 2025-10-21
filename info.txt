@@ -26,7 +26,7 @@ bride_self_account_number: 3333-34-5441975
 bride_father_name: 윤을묵
 bride_father_phone: 01030608334
 bride_father_account_bank: 기업은행
-bride_father_account_number: 010-3060-8334
+bride_father_account_number: 462-078229-01-012
 bride_mother_name: 김선민
 bride_mother_phone: 01042501004
 bride_mother_account_bank: 우리은행
