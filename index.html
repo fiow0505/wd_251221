@@ -1,348 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>결혼합니다 </title>
-        <script src="./script_main.js?v=202510210" defer></script>
-        <link rel="stylesheet" href="style.css?v=202510223">
-        <link rel="stylesheet" href="./animate.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400&display=swap" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결혼합니다</title>
+    <style>
+        /* 영상을 화면 전체에 꽉 채우기 위한 스타일 */
+        body, html { margin: 0; padding: 0; overflow: hidden; background-color: #000; }
+        .video-container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        #introVideo { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="introVideo" preload="auto" playsinline muted>
+            <source src="./photo/intro.mp4" type="video/mp4">
+            죄송합니다. 귀하의 브라우저는 비디오 태그를 지원하지 않습니다.
+        </video>
+    </div>
 
-        <meta property="og:title" content="권민범 ❤️ 윤경의: 결혼합니다" />
-        <meta property="og:description" content="저희 두 사람, 사랑으로 만나 진실과 이해로써 하나를 이루려 합니다." />
-        <meta property="og:image" content="./photo/main_tt.jpg" />
-    </head>
-
-    <body>
-        <div class = "container">
-            <audio id="bgm" loop preload="auto" muted>
-                <source src="./bgm.mp3" type="audio/mp3">
-            </audio>
-
-            <div id="bgm-control-container">
-                <button id="bgm-toggle-btn" class="bgm-playing">
-                <i class="fas fa-volume-up"></i>
-                </button>
-            </div>
-
-            <!--
-            <audio loop="" id="videoplay" data-url="src/bgm/romantic-memories.mp3">
-                <source src="http://w.theirmood.com/src/bgm/romantic-memories.mp3" type="audio/mp3">
-            </audio>
-            -->
-            <section class="main">
-                <img src="./photo/main.jpg" alt="웨딩 메인 사진" class="main-photo">
-                <div class="main-title">
-                    <span id="groom-name-main"></span>
-                    <span class="and">&</span>
-                    <span id="bride-name-main"></span>
-                </div>
-                <br>
-                <p class="main-date" id="wedding-date-time-main"></p>
-                <p class="main-location" id="wedding-hall-main"></p>
-            </section>
-
-            <!-- 초대글 -->
-            <section class="invitation">
-                <img src = "./icon/invitation.png" alt="invitation" style="width: 250px;">
-                <h2> 초대합니다</h2>
-                <p>
-                    <br>
-                    제가 가장 좋아하는 일보다 <br>
-                    이 사람과 함께하는 것이<br>
-                    더 큰 행복임을 깨달았습니다.<br>
-                    <br>
-                    작은 것에도 행복해하고 웃는 따뜻한 사람과<br>
-                    하나가 되는 길을 시작하려 합니다.<br>
-                    <br>
-                    저희의 소중한 시작에 귀한 걸음 하시어<br>
-                    따뜻한 사랑과 격려로 축복해 주시면<br>
-                    더없이 감사하겠습니다.<br>
-                </p>
-            </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('introVideo');
             
-            <!-- 연락하기 -->
-            <section class="family-info">
-                <div class="name-row">
-                    <p>
-                        <span id="groom-father-name-family"></span> · <span id="groom-mother-name-family"></span>
-                        <span class="relation"> 의 아들 </span>
-                        <span class="child-name" id="groom-name-family"></span>
-                    </p>
-                </div>
-                <div class="name-row">
-                    <p>
-                        <span id="bride-father-name-family"></span> · <span id="bride-mother-name-family"></span>
-                        <span class="relation"> 의 딸 </span>
-                        <span class="child-name" id="bride-name-family"></span>
-                    </p>                    
-                </div>
-
-                <div class="telArea">
-                    <a class="int_buttn" onclick="openContactPop()">
-                        <i class="fas fa-phone"></i>&nbsp;연락하기
-                    </a>
-                </div>
-            
-
-                <div id="tel_popup">
-                    <a class="x_button">
-                        <svg width="45" height="45" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.86018 16.829L16.3455 8.34375" stroke="#cccccc" stroke-width="1" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M16.2431 16.7275L7.75781 8.24219" stroke="#cccccc" stroke-width="1" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                        
-                    </a>
-                    <div class="background"></div>
-                    <div class="tp">
-                        <span class="ent">CONTACT</span>
-                        <div>연락하기</div>
-                    </div>
-                    <div class="ctt">
-                        <div class="grd_wrap man">
-                            <div class="grd_line">신랑측 <span class="ent">GROOM</span></div>
-                            <div class="grd">
-                                <span class="cell">신랑</span>
-                                <span class="cell_name" id="groom-name-pop"></span>
-                                <span class="cell">
-                                    <a class="fa fa-phone-alt" id="groom-call-pop" href=""></a>
-                                    <a class="fa fa-envelope" id="groom-sms-pop" href=""></a>
-                                </span>
-                            </div>
-                            <div class="grd">
-                                <span class="cell">신랑 아버지</span>
-                                <span class="cell_name" id="groom-father-name-pop"></span>
-                                <span class="cell">
-                                    <a class="fa fa-phone-alt" id="groom-father-call-pop" href=""></a>
-                                    <a class="fa fa-envelope" id="groom-father-sms-pop" href=""></a>
-                                </span>
-                            </div>
-                            <div class="grd">
-                                <span class="cell">신랑 어머니</span>
-                                <span class="cell_name" id="groom-mother-name-pop"></span>
-                                <span class="cell">
-                                    <a class="fa fa-phone-alt" id="groom-mother-call-pop" href=""></a>
-                                    <a class="fa fa-envelope" id="groom-mother-sms-pop" href=""></a>
-                                </span>
-                            </div> 
-                        </div>
-
-                        <div class="grd_wrap man">
-                            <div class="grd_line">신부측 <span class="ent">BRIDE</span></div>
-                            <div class="grd">
-                                <span class="cell">신부</span>
-                                <span class="cell_name" id="bride-name-pop"></span>
-                                <span class="cell">
-                                    <a class="fa fa-phone-alt" id="bride-call-pop" href=""></a>
-                                    <a class="fa fa-envelope" id="bride-sms-pop" href=""></a>
-                                </span>
-                            </div>
-                            <div class="grd">
-                                <span class="cell">신부 아버지</span>
-                                <span class="cell_name" id="bride-father-name-pop"></span>
-                                <span class="cell">
-                                    <a class="fa fa-phone-alt" id="bride-father-call-pop" href=""></a>
-                                    <a class="fa fa-envelope" id="bride-father-sms-pop" href=""></a>
-                                </span>
-                            </div>
-                            <div class="grd">
-                                <span class="cell">신부 어머니</span>
-                                <span class="cell_name" id="bride-mother-name-pop"></span>
-                                <span class="cell">
-                                    <a class="fa fa-phone-alt" id="bride-mother-call-pop" href=""></a>
-                                    <a class="fa fa-envelope" id="bride-mother-sms-pop" href=""></a>
-                                </span>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-                <script>
-                $("#tel_popup .x_button").click(function() {
-                    $("body").removeClass("pop_contact_open");
-                    $('html,body').css("overflow", "");
-                    window.scrollTo(0, WIN_SCR_TOP);
+            // 모바일 환경에서 인앱브라우저의 자동 재생 정책을 우회하기 위해
+            // 1. 음소거(muted) 상태에서 재생 시도
+            video.play().then(() => {
+                // 재생 성공 시, 영상이 끝나면 메인 페이지로 이동
+                video.addEventListener('ended', function() {
+                    window.location.href = 'index.html?playBgm=true';
                 });
-                </script>
-            </section>
-
-            <!-- 캘린더 -->
-            <!-- 갤러리 -->
-            <section class="gallery">
-                <h2>갤러리</h2>
-                <div class="gallery-grid"></div>
-                <div id="gallery-modal" class="modal">
-                    <span class="close-btn">&times;</span>
-                    <img class="modal-content" id="modal-image">
-                    <a class="prev-btn">&#10094;</a>
-                    <a class="next-btn">&#10095;</a>
-                    <div class="indicator-container"></div>
-                </div>
-            </section>
-
-            <!-- 오시는길 -->
-            <section class="location">
-                <img src = "./icon/chaple.png" alt="채플" class="icon-flower">
-                <h2>오시는 길</h2>
-                <br>
-                <p id="wedding-hall-address-display" style="font-size: 1.3em; color: #555; margin: 10px 0; display: flex; justify-content: center; align-items: center; gap: 10px;">
-                    <span id="wedding-hall-location"></span> 
-                    <i class="fa-regular fa-copy" id="copy-location-icon" style="color: #892929; cursor: pointer;"></i>
-                </p>
-                <br>                
-                <!-- 1. 지도 노드 -->
-                <div id="daumRoughmapContainer1760955869868" class="root_daum_roughmap root_daum_roughmap_landing" style="width:100%;"></div>
-                <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
-                <script charset="UTF-8">
-                    new daum.roughmap.Lander({
-                        "timestamp" : "1760955869868",
-                        "key" : "b5y6shn28g5",
-                        "mapHeight" : "360"
-                        }).render();
-                </script>
-                
-                <!-- 🚗🚌 대중교통 정보 추가 영역 -->
-                <div class="transport-info">
-                    <div class="tab-title">
-                        <i class="fas fa-subway" style="color:#892929; font-size:1.1em;"></i> 지하철
-                    </div>
-                    <div class="transport-detail">
-                        <p><strong>[7호선]</strong> 강남구청역 3번출구, 도보 10분</p>
-                        <p><strong>[수인분당선]</strong> 압구정로데오역 5번출구, 도보 10분</p>
-                    </div>
-                </div>
-
-                <div class="transport-info">
-                    <div class="tab-title">
-                        <i class="fas fa-bus-alt" style="color:#892929; font-size:1.1em;"></i> 버스
-                    </div>
-                    <div class="transport-detail">
-                        <p><strong>[간선]</strong> 301, 342, 472번 / <strong>[지선]</strong> 3011, 4312번</p>
-                        <p>영동고교, 영동고 현대아파트 하차, 도보 1분</p>
-                    </div>
-                </div>
-
-                <div class="transport-info">
-                    <div class="tab-title">
-                        <i class="fas fa-car" style="color:#892929; font-size:1.1em;"></i> 자가용
-                    </div>
-                    <div class="transport-detail">
-                        <p>90분 무료주차</p>
-                        <p><strong style="font-size:0.9em; text-align: left; line-height: 1.8;">
-                             *웨딩홀 주변 교통체증으로 인해, 대중교통을 이용부탁드립니다.</strong></p>
-                    </div>
-                </div>
+            }).catch(error => {
+                // 재생 실패(사용자 상호작용 필요) 시, 바로 메인 페이지로 이동
+                // (사용자가 영상 재생을 위해 한 번 더 클릭하게 하는 것보다 나은 사용자 경험)
+                console.error("자동 재생 실패:", error);
+                window.location.href = 'index.html?playBgm=true';
+            });
             
-            </section>
-
-
-            <!-- 마음을 전하실 곳-->
-            <section class="account">
-                <img src = "./icon/flower.png" alt="꽃" class="icon-flower">
-                <h2> 마음을 전하실 곳</h2>
-                <p>
-                    <br>
-                    참석이 어려우신 분들을 위해<br>
-                    계좌번호를 기재하였습니다.<br>
-                    너그러운 마음으로 양해 부탁드립니다.
-                </p>
-                
-                <button class="accordion">신랑측에게 마음 전하기</button>
-                <div class="panel">
-                    <div class="account-item">
-                        <div class="info">
-                            <span class="name" id="groom-father-name-account"></span>
-                            <span class="account" id="groom-father-account-number"></span>
-                        </div>
-                        <button class="copy-btn">복사</button>
-                    </div>
-
-                    <div class="account-item">
-                        <div class="info">
-                            <span class="name" id="groom-mother-name-account"></span>
-                            <span class="account" id="groom-mother-account-number"></span>
-                        </div>
-                        <button class="copy-btn">복사</button>
-                    </div>
-
-                    <div class="account-item">
-                        <div class="info">
-                            <span class="name" id="groom-self-name-account"></span>
-                            <span class="account" id="groom-self-account-number"></span>
-                        </div>
-                        <button class="copy-btn">복사</button>
-                    </div>
-                </div>
-
-                <button class="accordion">신부측에게 마음 전하기</button>
-                <div class="panel">
-                    <div class="account-item">
-                        <div class="info">
-                            <span class="name" id="bride-father-name-account"></span>
-                            <span class="account" id="bride-father-account-number"></span>
-                            
-                        </div>
-                        <button class="copy-btn">복사</button>
-                    </div>
-
-                    <div class="account-item">
-                        <div class="info">
-                            <span class="name" id="bride-mother-name-account"></span>
-                            <span class="account" id="bride-mother-account-number"></span>
-                        </div>
-                        <button class="copy-btn">복사</button>
-                    </div>
-
-                    <div class="account-item">
-                        <div class="info">
-                            <span class="name" id="bride-self-name-account"></span>
-                            <span class="account" id="bride-self-account-number"></span>
-                        </div>
-                        <button class="copy-btn">복사</button>
-                    </div>
-                </div> 
-            </section>
-                
-            <section>
-                <!-- 마무리 메시지 -->
-                <div class="closing-message">
-                    <p style="font-size: 2.0em; color: #892929; font-family: 'Pinyon Script', sans-serif;">Thank You</p>
-                    <!-- 성경구절 -->
-                    <p style="font-size: 1.1em; color: #666; line-height: 1.6; margin: 30px 0 0 0;">
-                        소중한 분들의 참석과 축복이<br>
-                        저희에게 가장 큰 선물입니다.<br>
-                        <br>
-                        감사합니다.
-                    </p>
-
-                    <div class="bible-verse">
-                        <p class="verse-text">
-                            "Love is patient and kind. Love is not jealous or boastful or proud. It is not rude, it is not selfish, and it cannot be made angry. It is not resentful. Love is not glad about evil but rejoices when the truth wins out. It bears all things, believes all things, hopes all things, and endures all things"
-                            </p>
-                        <p class="verse-reference">1 Corinthians 13:4-7</p>
-                    </div>
-                    <img src="./icon/ring.png" alt="꽃" class="icon-flower" style="width: 80px; height: auto; margin: 30px 0 20px 0;">
-                    
-                </div>
-            </section>
-            
-
-
-            
-            
-            
-            <!--영상
-            <section class="video-section">
-                <div class="video-container">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/kamsx_g2hnI?loop=1&playlist=kamsx_g2hnI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            </section>
-            -->
-        </div>
-    </body>
+            // 영상 길이(7초)가 명확하므로, 만약을 대비한 타이머 설정
+            setTimeout(() => {
+                if (!video.ended) {
+                    window.location.href = 'index.html?playBgm=true';
+                }
+            }, 7500); // 7초 영상에 0.5초 여유를 두어 강제 이동
+        });
+    </script>
+</body>
 </html>
