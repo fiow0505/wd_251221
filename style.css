@@ -666,14 +666,7 @@ h2 {
     cursor: pointer;
     border-radius: 5px;
 }
-/* 페이지 마무리 */
-.account::after {
-    content: '';
-    display: block;
-    height: 20px;
-    background: linear-gradient(to bottom, #FDFDFD, #f8f8f8);
-    margin-top: 20px;
-}
+
 
 /* 마무리 메시지 스타일 */
 .closing-message {
