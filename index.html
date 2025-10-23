@@ -28,19 +28,19 @@
             video.play().then(() => {
                 // 재생 성공 시, 영상이 끝나면 메인 페이지로 이동
                 video.addEventListener('ended', function() {
-                    window.location.href = 'index.html?playBgm=true';
+                    window.location.href = 'main.html?playBgm=true';
                 });
             }).catch(error => {
                 // 재생 실패(사용자 상호작용 필요) 시, 바로 메인 페이지로 이동
                 // (사용자가 영상 재생을 위해 한 번 더 클릭하게 하는 것보다 나은 사용자 경험)
                 console.error("자동 재생 실패:", error);
-                window.location.href = 'index.html?playBgm=true';
+                window.location.href = 'main.html?playBgm=true';
             });
             
             // 영상 길이(7초)가 명확하므로, 만약을 대비한 타이머 설정
             setTimeout(() => {
                 if (!video.ended) {
-                    window.location.href = 'index.html?playBgm=true';
+                    window.location.href = 'main.html?playBgm=true';
                 }
             }, 7500); // 7초 영상에 0.5초 여유를 두어 강제 이동
         });
