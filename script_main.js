@@ -135,31 +135,6 @@ function applyInfo(info) {
     }
 }
 
-function initBgmAutoPlay() {
-    // URL 파라미터에서 playBgm=true를 확인합니다 (start.html에서 넘어왔는지 확인)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('playBgm') !== 'true') return;
-    const bgm = document.getElementById('bgm');
-    if (!bgm) return;
-    
-    // 2. 배경 음악 클릭 재생 함수
-    function playBgmOnInteraction() {
-        // 음소거 해제 후 재생
-        bgm.muted = false; 
-        bgm.play().then(() => {
-            // 재생 성공 시 리스너 제거
-            document.body.removeEventListener('click', playBgmOnInteraction);
-            document.body.removeEventListener('touchend', playBgmOnInteraction);
-            console.log('BGM 자동 재생 성공');
-        }).catch(e => {
-            console.warn('BGM 자동 재생 실패 (재생 제한됨):', e);
-        });
-    }
-
-    // 3. 최초 사용자 터치(모바일) 또는 클릭(PC) 시 배경음악 재생 시도
-    document.body.addEventListener('click', playBgmOnInteraction, { once: true });
-    document.body.addEventListener('touchend', playBgmOnInteraction, { once: true });
-}
 
 
 function initBgmControl() {
@@ -199,6 +174,27 @@ function initBgmControl() {
         updateButtonIcon();
     };
 
+    const addInteractionListener = () => {
+        const playOnInteraction = () => {
+            // 리스너 제거
+            document.body.removeEventListener('click', playOnInteraction);
+            document.body.removeEventListener('touchend', playOnInteraction);
+            
+            // ⭐ BGM을 음소거 해제하고 재생 시도 (사용자 상호작용으로 간주됨)
+            bgm.muted = false; 
+            bgm.play().then(() => {
+                console.log('최초 상호작용으로 BGM 재생 성공');
+                isPlaying = true;
+                updateButtonIcon();
+            }).catch(e => {
+                console.warn('상호작용 후 BGM 재생 실패:', e);
+                // 실패해도 버튼으로 수동 재생 가능
+            });
+        };
+        document.body.addEventListener('click', playOnInteraction, { once: true });
+        document.body.addEventListener('touchend', playOnInteraction, { once: true });
+    };
+
     // 1. 최초 자동 재생 시도 함수 (index.html 로드 시 바로 실행)
     const initialAutoPlay = () => {
         bgm.muted = true; 
@@ -209,6 +205,7 @@ function initBgmControl() {
             // 재생 실패
             console.warn("최초 음소거 자동 재생 실패:", e);
             isPlaying = false; 
+            addInteractionListener();
         });
         updateButtonIcon();
     };
