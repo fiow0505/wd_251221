@@ -7,6 +7,7 @@
   정보를 불러오고, 갤러리를 만들고, 지도를 표시하는 등의 역할을 합니다.
 */
 
+
 // DOM이 완전히 로드된 후에 스크립트를 실행합니다.
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -19,14 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
             initAccordion();
             initClipboard();
             initAddressClipboard(info); // 주소 복사 기능 초기화 추
+            initBgmControl();
         });
-
-    // 2. 배경 음악 자동 재생
-    document.body.addEventListener('click', function playBgm() {
-        const bgm = document.getElementById('bgm');
-        bgm.play();
-        document.body.removeEventListener('click', playBgm);
-    }, { once: true });
 
 
     // 3. 갤러리 초기화
@@ -139,6 +134,102 @@ function applyInfo(info) {
         console.error('applyInfo error: ', e)
     }
 }
+
+function initBgmAutoPlay() {
+    // URL 파라미터에서 playBgm=true를 확인합니다 (start.html에서 넘어왔는지 확인)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('playBgm') !== 'true') return;
+    const bgm = document.getElementById('bgm');
+    if (!bgm) return;
+    
+    // 2. 배경 음악 클릭 재생 함수
+    function playBgmOnInteraction() {
+        // 음소거 해제 후 재생
+        bgm.muted = false; 
+        bgm.play().then(() => {
+            // 재생 성공 시 리스너 제거
+            document.body.removeEventListener('click', playBgmOnInteraction);
+            document.body.removeEventListener('touchend', playBgmOnInteraction);
+            console.log('BGM 자동 재생 성공');
+        }).catch(e => {
+            console.warn('BGM 자동 재생 실패 (재생 제한됨):', e);
+        });
+    }
+
+    // 3. 최초 사용자 터치(모바일) 또는 클릭(PC) 시 배경음악 재생 시도
+    document.body.addEventListener('click', playBgmOnInteraction, { once: true });
+    document.body.addEventListener('touchend', playBgmOnInteraction, { once: true });
+}
+
+
+function initBgmControl() {
+    const bgm = document.getElementById('bgm');
+    const toggleBtn = document.getElementById('bgm-toggle-btn');
+    if (!bgm || !toggleBtn) return;
+
+    let isPlaying = false; // 현재 재생 상태 추적 (버튼 클래스 제어용)
+    
+    // 버튼 아이콘 업데이트 함수
+    const updateButtonIcon = () => {
+        // Font Awesome 아이콘을 사용합니다.
+        toggleBtn.innerHTML = isPlaying 
+            ? '<i class="fas fa-volume-up"></i>'   // 재생 중
+            : '<i class="fas fa-volume-mute"></i>'; // 일시 정지 (음소거)
+            
+        toggleBtn.classList.toggle('bgm-playing', isPlaying);
+        toggleBtn.classList.toggle('bgm-paused', !isPlaying);
+    };
+    
+    
+    const toggleBgm = () => {
+        if (isPlaying) {
+            bgm.pause();
+            isPlaying = false;
+        } else {
+            // 사용자가 클릭하면 음소거를 해제하고 재생합니다.
+            bgm.muted = false;
+            bgm.play().then(() => {
+                isPlaying = true;
+            }).catch(e => {
+                // 재생 실패 시 (일반적으로 최초 사용자 상호작용이 아닐 경우)
+                console.warn('BGM 재생 시도 실패 :', e);
+                isPlaying = false; // 재생 안 되었으므로 false 유지
+            });
+        }
+        updateButtonIcon();
+    };
+
+    // 1. 최초 자동 재생 시도 함수 (index.html 로드 시 바로 실행)
+    const initialAutoPlay = () => {
+        bgm.muted = true; 
+        bgm.play().then(() => {
+            // 재생 성공 (음소거 상태로 재생 중)
+            isPlaying = true; 
+        }).catch(e => {
+            // 재생 실패
+            console.warn("최초 음소거 자동 재생 실패:", e);
+            isPlaying = false; 
+        });
+        updateButtonIcon();
+    };
+
+    
+    toggleBtn.addEventListener('click', toggleBgm);
+
+    // BGM 이벤트 리스너 (외부 상태 변화 반영)
+    bgm.addEventListener('play', () => {
+        isPlaying = true;
+        updateButtonIcon();
+    });
+    bgm.addEventListener('pause', () => {
+        isPlaying = false;
+        updateButtonIcon();
+    });
+    
+    // 함수 호출
+    initialAutoPlay()
+}
+
 
 // --- 연락처 팝업 기능 ---
 let WIN_SCR_TOP = 0
@@ -458,3 +549,4 @@ function initAddressClipboard(info) {
         }
     });
 }
+

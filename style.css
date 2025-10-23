@@ -49,6 +49,66 @@ h2 {
     font-weight: 500;
 }
 
+/* BGM 제어 컨테이너 (버튼을 고정시키는 역할) */
+#bgm-control-container {
+    position: fixed; /* 화면에 고정 */
+    top: 20px;       /* 상단에서 20px */
+    right: 20px;     /* 우측에서 20px */
+    z-index: 1010;   /* 다른 요소 위에 오도록 z-index 높게 설정 */
+}
+
+/* BGM 토글 버튼 스타일 */
+#bgm-toggle-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* 원형 버튼 */
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 기본 상태: 재생 중 스타일 */
+    background-color: #FDFDFD; /* #892929 포인트 색상에 투명도 적용 */
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+#bgm-toggle-btn:hover {
+    transform: scale(1.05);
+}
+
+/* 재생 중 상태 (볼륨 아이콘) */
+#bgm-toggle-btn.bgm-playing i {
+    opacity: 1;
+}
+
+/* 일시 정지 상태 (음소거 아이콘) */
+#bgm-toggle-btn.bgm-paused {
+    background-color: rgba(51, 51, 51, 0.7); /* 정지 시 색상 변경 */
+}
+
+#bgm-toggle-btn.bgm-paused i {
+    /* 음소거 아이콘으로 변경할 것이므로 볼륨 아이콘은 숨김 */
+    
+}
+
+/* 모바일 최적화 (더 작게) */
+@media (max-width: 480px) {
+    #bgm-control-container {
+        top: 15px;
+        right: 15px;
+    }
+    #bgm-toggle-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1em;
+    }
+}
+
+
 /* 메인 섹션 */
 .main {
     background-color: #FDFDFD;

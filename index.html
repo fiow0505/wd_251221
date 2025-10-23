@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>결혼합니다 </title>
         <script src="./script_main.js?v=202510210" defer></script>
-        <link rel="stylesheet" href="style.css?v=202510210">
+        <link rel="stylesheet" href="style.css?v=202510223">
         <link rel="stylesheet" href="./animate.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,21 @@
 
     <body>
         <div class = "container">
+            <audio id="bgm" loop preload="auto" muted>
+                <source src="./bgm.mp3" type="audio/mp3">
+            </audio>
+
+            <div id="bgm-control-container">
+                <button id="bgm-toggle-btn" class="bgm-playing">
+                <i class="fas fa-volume-up"></i>
+                </button>
+            </div>
+
+            <!--
+            <audio loop="" id="videoplay" data-url="src/bgm/romantic-memories.mp3">
+                <source src="http://w.theirmood.com/src/bgm/romantic-memories.mp3" type="audio/mp3">
+            </audio>
+            -->
             <section class="main">
                 <img src="./photo/main.jpg" alt="웨딩 메인 사진" class="main-photo">
                 <div class="main-title">

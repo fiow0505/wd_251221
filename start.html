@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결혼합니다</title>
+    <style>
+        /* 영상을 화면 전체에 꽉 채우기 위한 스타일 */
+        body, html { margin: 0; padding: 0; overflow: hidden; background-color: #000; }
+        .video-container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        #introVideo { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="introVideo" preload="auto" playsinline muted>
+            <source src="./photo/intro.mp4" type="video/mp4">
+            죄송합니다. 귀하의 브라우저는 비디오 태그를 지원하지 않습니다.
+        </video>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('introVideo');
+            
+            // 모바일 환경에서 인앱브라우저의 자동 재생 정책을 우회하기 위해
+            // 1. 음소거(muted) 상태에서 재생 시도
+            video.play().then(() => {
+                // 재생 성공 시, 영상이 끝나면 메인 페이지로 이동
+                video.addEventListener('ended', function() {
+                    window.location.href = 'index.html?playBgm=true';
+                });
+            }).catch(error => {
+                // 재생 실패(사용자 상호작용 필요) 시, 바로 메인 페이지로 이동
+                // (사용자가 영상 재생을 위해 한 번 더 클릭하게 하는 것보다 나은 사용자 경험)
+                console.error("자동 재생 실패:", error);
+                window.location.href = 'index.html?playBgm=true';
+            });
+            
+            // 영상 길이(7초)가 명확하므로, 만약을 대비한 타이머 설정
+            setTimeout(() => {
+                if (!video.ended) {
+                    window.location.href = 'index.html?playBgm=true';
+                }
+            }, 7500); // 7초 영상에 0.5초 여유를 두어 강제 이동
+        });
+    </script>
+</body>
+</html>
