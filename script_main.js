@@ -157,6 +157,7 @@ function initBgmControl() {
     const urlParams = new URLSearchParams(window.location.search);
     const shouldPlayUnmuted = urlParams.get('playBgm') === 'true';
     
+    bgm.volume = 0.3;
     // 버튼 아이콘 업데이트 함수
     const updateButtonIcon = () => {
         // Font Awesome 아이콘을 사용합니다.

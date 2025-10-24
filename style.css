@@ -772,7 +772,7 @@ h2 {
 }
 
 .verse-reference {
-    font-family: 'Pinyon Script', sans-serif;
+    font-family: 'Pinyon Script';
     font-size: 0.8em;
     color: #892929;
     text-align: center;
@@ -781,4 +781,13 @@ h2 {
     letter-spacing: 0.5px;
 }
 
+.verse-reference-ko {
+    font-family: 'SchoolSafetyFoundation';
+    font-size: 0.8em;
+    color: #892929;
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
 
