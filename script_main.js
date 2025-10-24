@@ -10,6 +10,15 @@
 
 // DOM이 완전히 로드된 후에 스크립트를 실행합니다.
 document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.container');
+    if (container) {
+        // 짧은 지연(100ms)을 두어 브라우저가 초기 opacity: 0 상태를 인식하게 한 후,
+        // 트랜지션을 시작하여 페이드 인이 부드럽게 작동하도록 합니다.
+        setTimeout(() => {
+            container.classList.remove('initial-hidden');
+            container.classList.add('loaded');
+        }, 100); 
+    }
 
     // 1. info.txt 파일에서 정보 불러오기
     fetch('./info.txt')

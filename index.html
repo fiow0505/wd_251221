@@ -5,14 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>결혼합니다</title>
         <style>
+
             /* 영상을 화면 전체에 꽉 채우기 위한 스타일 */
-            body, html { margin: 0; padding: 0; overflow: hidden; background-color: #000; }
-            .video-container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
-            #introVideo { width: 100%; height: 100%; object-fit: cover; }
+            body, html { 
+                margin: 0; 
+                padding: 0; 
+                overflow: hidden; 
+                background-color: #000; 
+                height: 100%;
+                width: 100%;
+            }
+            .video-container { 
+                width: 100vw; 
+                height: 100vh; 
+                display: flex; 
+                justify-content: center; 
+                align-items: center; 
+                position: relative; /* 자식 요소의 위치 기준 */
+                transition: opacity 0.5s ease-out; /* ⭐ 페이드 아웃 트랜지션 추가 */
+            }
+            #introVideo { 
+                width: 100%; 
+                height: 100%; 
+                object-fit: cover; 
+            }
+            .fade-out {
+            opacity: 0;
+            }
         </style>
+
     </head>
     <body>
-        <div class="video-container">
+        <div id="introContainer" class="video-container">
             <video id="introVideo" preload="auto" playsinline muted>
                 <source src="./photo/intro.mp4" type="video/mp4">
                 죄송합니다. 귀하의 브라우저는 비디오 태그를 지원하지 않습니다.
@@ -26,27 +50,61 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const video = document.getElementById('introVideo');
+                const bgm = document.getElementById('introBgm');
+                const introContainer = document.getElementById('introContainer'); // 새 ID 사용
+                const targetUrl = 'main.html?playBgm=true';
                 
-                // 모바일 환경에서 인앱브라우저의 자동 재생 정책을 우회하기 위해
-                // 1. 음소거(muted) 상태에서 재생 시도
-                video.play().then(() => {
-                    // 재생 성공 시, 영상이 끝나면 메인 페이지로 이동
-                    video.addEventListener('ended', function() {
-                        window.location.href = 'main.html?playBgm=true';
-                    });
-                }).catch(error => {
-                    // 재생 실패(사용자 상호작용 필요) 시, 바로 메인 페이지로 이동
-                    // (사용자가 영상 재생을 위해 한 번 더 클릭하게 하는 것보다 나은 사용자 경험)
-                    console.error("자동 재생 실패:", error);
-                    window.location.href = 'main.html?playBgm=true';
-                });
-                
-                // 영상 길이(7초)가 명확하므로, 만약을 대비한 타이머 설정
+                let isTransitioning = false;
+
+                const goToMain = () => {
+                    if (isTransitioning) return;
+                    isTransitioning = true;
+
+                    // 1. Fade-out 클래스 추가
+                    introContainer.classList.add('fade-out');
+                    
+                    // 2. 트랜지션 시간(0.5초) 후 페이지 이동 실행
+                    setTimeout(() => {
+                        // BGM 재생 상태를 유지하기 위해 메인 페이지로 이동
+                        window.location.href = targetUrl;
+                    }, 500); // CSS transition 시간과 동일하게 0.5초 설정
+                };
+                // 1. BGM과 Video 자동 재생 시도 (음소거 상태)
+                const initialPlay = () => {
+                    const videoPromise = video.play();
+                    const bgmPromise = bgm.play();
+                    
+                    Promise.all([videoPromise, bgmPromise])
+                        .then(() => {
+                            console.log("Video and BGM started successfully (muted).");
+                        })
+                        .catch(error => {
+                            // 자동 재생 실패 시 (대부분 BGM 때문에 발생), 바로 페이드 아웃 후 메인으로 이동
+                            console.error("Auto play failed:", error);
+                            goToMain();
+                        });
+                };
+
+                // 2. 비디오 재생 완료 이벤트: 영상이 끝나면 goToMain 실행
+                video.addEventListener('ended', goToMain);
+
                 setTimeout(() => {
                     if (!video.ended) {
                         window.location.href = 'main.html?playBgm=true';
                     }
-                }, 4500); // 7초 영상에 0.5초 여유를 두어 강제 이동
+                }, 4500); // 4초 영상에 0.5초 여유를 두어 강제 이동
+
+                const handleInteraction = () => {
+                    document.body.removeEventListener('click', handleInteraction);
+                    document.body.removeEventListener('touchend', handleInteraction);
+                    initialPlay();
+                };
+                document.body.addEventListener('click', handleInteraction, { once: true });
+                document.body.addEventListener('touchend', handleInteraction, { once: true });
+
+                // 5. 초기 실행
+                initialPlay();
+                
             });
         </script>
     </body>

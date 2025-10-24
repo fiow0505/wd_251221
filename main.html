@@ -21,10 +21,12 @@
 
     <body>
         <div class = "container">
-            <audio id="bgm" loop preload="auto" muted>
-                <source src="./bgm.mp3" type="audio/mp3">
-            </audio>
-
+            <div class = "container initial-hidden">
+                <audio id="bgm" loop preload="auto" muted>
+                    <source src="./bgm.mp3" type="audio/mp3">
+                </audio>
+            </div>
+            
             <div id="bgm-control-container">
                 <button id="bgm-toggle-btn" class="bgm-playing">
                 <i class="fas fa-volume-up"></i>

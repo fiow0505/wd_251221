@@ -29,6 +29,17 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
+.container.initial-hidden {
+    opacity: 0;
+    transition: opacity 3s ease-in; /* 1초 동안 부드럽게 나타나도록 설정 */
+}
+
+.container.loaded {
+    opacity: 3 !important; /* 다른 스타일과의 충돌 방지 */
+}
+
+
+
 /* 섹션별 공통 스타일 */
 section {
     padding: 40px 20px;
