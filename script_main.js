@@ -144,6 +144,10 @@ function initBgmControl() {
 
     let isPlaying = false; // 현재 재생 상태 추적 (버튼 클래스 제어용)
     
+    // URL에서 'playBgm=true' 쿼리 파라미터를 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const shouldPlayUnmuted = urlParams.get('playBgm') === 'true';
+    
     // 버튼 아이콘 업데이트 함수
     const updateButtonIcon = () => {
         // Font Awesome 아이콘을 사용합니다.
@@ -174,39 +178,31 @@ function initBgmControl() {
         updateButtonIcon();
     };
 
-    const addInteractionListener = () => {
-        const playOnInteraction = () => {
-            // 리스너 제거
-            document.body.removeEventListener('click', playOnInteraction);
-            document.body.removeEventListener('touchend', playOnInteraction);
-            
-            // ⭐ BGM을 음소거 해제하고 재생 시도 (사용자 상호작용으로 간주됨)
-            bgm.muted = false; 
+    // 1. 최초 BGM 로드 시 실행되는 함수
+    const initialPlayLogic = () => {
+        if (shouldPlayUnmuted) {
+            // index.html에서 넘어온 경우: 음소거 해제 후 재생 시도
+            bgm.muted = false;
             bgm.play().then(() => {
-                console.log('최초 상호작용으로 BGM 재생 성공');
                 isPlaying = true;
-                updateButtonIcon();
+                console.log('index.html 이동 후 BGM 재생 성공 (음소거 해제)');
             }).catch(e => {
-                console.warn('상호작용 후 BGM 재생 실패:', e);
-                // 실패해도 버튼으로 수동 재생 가능
+                console.warn("index.html 이동 후 BGM 재생 실패:", e);
+                // 실패 시, muted 상태로 다시 시도하거나 사용자 상호작용을 기다림
+                // 여기서는 muted 상태로 다시 시도하지 않고 버튼 클릭을 유도
+                isPlaying = false;
             });
-        };
-        document.body.addEventListener('click', playOnInteraction, { once: true });
-        document.body.addEventListener('touchend', playOnInteraction, { once: true });
-    };
-
-    // 1. 최초 자동 재생 시도 함수 (index.html 로드 시 바로 실행)
-    const initialAutoPlay = () => {
-        bgm.muted = true; 
-        bgm.play().then(() => {
-            // 재생 성공 (음소거 상태로 재생 중)
-            isPlaying = true; 
-        }).catch(e => {
-            // 재생 실패
-            console.warn("최초 음소거 자동 재생 실패:", e);
-            isPlaying = false; 
-            addInteractionListener();
-        });
+        } else {
+            // 새로고침이나 직접 main.html 접근 시: muted 상태로 자동 재생 시도
+            bgm.muted = true; 
+            bgm.play().then(() => {
+                isPlaying = true; 
+            }).catch(e => {
+                console.warn("최초 음소거 자동 재생 실패:", e);
+                isPlaying = false; 
+                // addInteractionListener(); // 필요하다면 이 부분을 추가
+            });
+        }
         updateButtonIcon();
     };
 
@@ -224,7 +220,7 @@ function initBgmControl() {
     });
     
     // 함수 호출
-    initialAutoPlay()
+    initialPlayLogic();
 }
 
 
@@ -331,7 +327,7 @@ function initGallery() {
         if (direction === 'prev') {
             // 좌측 버튼: 현재 사진 오른쪽으로 아웃 (slide-right), 새 사진 왼쪽 밖에서 시작 (start-left)
             slideOutClass = 'slide-right'; 
-            slideInStartClass = 'start-right';
+            slideInStartClass = 'start-left';
         } else { // 'next'
             // 우측 버튼: 현재 사진 왼쪽으로 아웃 (slide-left), 새 사진 오른쪽 밖에서 시작 (start-right)
             slideOutClass = 'slide-left';
