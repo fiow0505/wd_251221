@@ -21,8 +21,8 @@
                 display: flex; 
                 justify-content: center; 
                 align-items: center; 
-                position: relative; /* 자식 요소의 위치 기준 */
-                transition: opacity 0.5s ease-out; /* ⭐ 페이드 아웃 트랜지션 추가 */
+                position: relative;
+                transition: opacity 0.5s ease-out;
             }
             #introVideo { 
                 width: 100%; 
@@ -51,7 +51,7 @@
             document.addEventListener('DOMContentLoaded', function() {
                 const video = document.getElementById('introVideo');
                 const bgm = document.getElementById('introBgm');
-                const introContainer = document.getElementById('introContainer'); // 새 ID 사용
+                const introContainer = document.getElementById('introContainer'); 
                 const targetUrl = 'main.html?playBgm=true';
                 
                 let isTransitioning = false;
